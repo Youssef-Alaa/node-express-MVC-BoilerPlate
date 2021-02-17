@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Strings = require('../../config/strings');
+const Strings = require('../config/strings');
 const validator = require('validator');
 
 const UserSchema = new mongoose.Schema({

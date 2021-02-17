@@ -2,10 +2,11 @@ require('dotenv').config();
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const _ = require('lodash');
 
 const signToken = (user) => {
   return jwt.sign({ user }, process.env.JWT_SECRET, {
-    expiresIn: process.env.TOKEN_EXPIRY,
+    expiresIn: '24h',
   });
 };
 
@@ -20,6 +21,14 @@ const hashPassword = async (password) => {
 
 const verifyPassword = async (candidate, actual) => await bcrypt.compare(candidate, actual);
 
+const customAssign = (target, source) => {
+  if (typeof target !== 'object' || typeof source !== 'object') {
+    throw new Error('target and source should be of type objects');
+  }
+  const filteredSource = _.omitBy(source, _.isNil);
+  Object.assign(target, filteredSource);
+  return target;
+};
 
 class ServerError extends Error {
   constructor(message, status) {
@@ -32,5 +41,6 @@ module.exports = {
   hashPassword,
   verifyPassword,
   signToken,
+  customAssign,
   ServerError
 };

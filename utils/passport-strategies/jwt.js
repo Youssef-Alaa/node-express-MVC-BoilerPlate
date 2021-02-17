@@ -21,7 +21,7 @@ const strategyOptions = {
 };
 
 const verifyCallback = async (req, jwtPayload, done) => {
-  const { error, user } = await getUserById(jwtPayload.user.id);
+  const { error, user } = await getUserById(jwtPayload.user._id);
 
   if (error) {
     return done(new ServerError(error, 404));
